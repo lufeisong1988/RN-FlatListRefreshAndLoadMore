@@ -68,7 +68,7 @@ export default class JFlatList extends Component<Props> {
     };
     _renderFooter = () => {
         return (
-            this.state.noMoreData ? <Text>No more data</Text> : <Text>loadMore data</Text>
+            this.state.noMoreData ? <Text style={{textAlign:'center',fontSize:16,paddingBottom:10}}>没有更多数据!</Text> : <Text style={{textAlign:'center',fontSize:16,paddingBottom:10}}>加载数据中...</Text>
         )
     };
 
