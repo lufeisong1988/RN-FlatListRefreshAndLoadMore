@@ -37,6 +37,14 @@ export default class JFlatList extends Component<Props> {
     };
     _onRefresh = () => {
         console.log('refresh status : ' + this.state.statue);
+        //初始化的时候，下拉刷新，改变成闲置，并触发业务
+        if(this.state.statue === stateInit){
+            this.setState({statue: stateIdle},function () {
+                this.setState({statue: stateLoading});
+                this.props.onRefresh && this.props.onRefresh();
+            });
+            return
+        }
         if (this.state.statue != stateIdle) {
             console.log('refresh not idle');
             return
@@ -89,7 +97,7 @@ export default class JFlatList extends Component<Props> {
     render() {
         return (
             <FlatList
-                style={{backgroundColor: 'blue'}}
+                style={{backgroundColor: 'transparent'}}
                 data={this.props.data}
                 renderItem={this.props.renderItem}
                 ListFooterComponent={this._renderFooter}
@@ -99,7 +107,7 @@ export default class JFlatList extends Component<Props> {
                 onEndReachedThreshold={0.1}
                 refreshControl={
                     <RefreshControl
-                        style={{backgroundColor: 'red', width: width}}
+                        style={{backgroundColor: 'transparent', width: width}}
                         refreshing={this.state.statue === stateLoading ? true : false}
                         onRefresh={this._onRefresh}
                         title="Loading..."
