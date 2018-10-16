@@ -12,6 +12,7 @@ import {
     View,
 } from 'react-native'
 import JFlatList from './JFlatList'
+import JSectionList from './JSectionList'
 
 var _this = null;
 export default class App extends Component {
@@ -20,40 +21,66 @@ export default class App extends Component {
     constructor(props) {
         super(props);
         _this = this;
-        this.state={
-            data:[1,2,3,4,5,6,7,8,9]
+        this.state = {
+            data: [
+                {title: 'a', data: [1, 2, 3]},
+                {title: 'b', data: [1, 2, 3]},
+                {title: 'c', data: [1, 2, 3]},
+                {title: 'd', data: [1, 2, 3]},
+            ]
         }
     }
 
     render() {
         return (
-            <View style={{flex:1}}>
-            <JFlatList ref={JFlatList => this.JFlatList = JFlatList}
-                       data={this.state.data}
-                       renderItem={
-                           ({item, index}) => {
-                               return (
-                                   <Text style={{height:80}}>{item}</Text>
-                               )
-                           }
-                       }
-                       onRefresh={()=>{
-                           console.log('refresh callback');
-                           setTimeout(function () {
-                              _this.JFlatList.refreshFinish();
-                           },3000)
-                       }}
-                       onLoadMore={()=>{
-                           console.log('loadMore callback');
-                           setTimeout(function () {
-                               _this.setState({
-                                   data:[..._this.state.data,1,2,3,4,5,6,7,8,9]
-                               });
-                               _this.JFlatList.loadMoreFinish();
+            <View style={{flex: 1}}>
+                <JSectionList ref={JSectionList => this.JSectionList = JSectionList}
+                              sections={this.state.data}
+                              renderItem={
+                                  ({item, index, section}) => {
+                                      return (
+                                          <Text style={{height: 80}}>{section.title + item}</Text>
+                                      )
+                                  }
+                              }
+                              renderSectionHeader={
+                                  (info) => {
+                                      console.log('renderSectionHeader ' + info);
+                                      return (
+                                          <Text style={{height: 80}}>i am section</Text>
+                                      )
+                                  }
+                              }
 
-                           },3000)
-                       }}
-            />
+                              stickySectionHeadersEnabled={true}
+                              onRefresh={() => {
+                                  console.log('refresh callback');
+                                  setTimeout(function () {
+                                      _this.JSectionList.refreshFinish();
+                                      _this.setState({
+                                          data:[{title: 'a', data: [1, 2, 3]},
+                                              {title: 'b', data: [1, 2, 3]},
+                                              {title: 'c', data: [1, 2, 3]},
+                                              {title: 'd', data: [1, 2, 3]},]
+                                      })
+                                  }, 3000)
+                              }}
+                              onLoadMore={() => {
+                                  console.log('loadMore callback');
+                                  setTimeout(function () {
+                                      _this.JSectionList.loadMoreFinish();
+                                      _this.setState({
+                                          data:[..._this.state.data,{title: 'a', data: [1, 2, 3]},
+                                              {title: 'b', data: [1, 2, 3]},
+                                              {title: 'c', data: [1, 2, 3]},
+                                              {title: 'd', data: [1, 2, 3]},]
+                                      })
+                                  }, 3000)
+                              }}
+                              onViewableItemsChanged={(info) => {
+                                  console.log('onViewableItemsChanged ' + info)
+                              }}
+                />
             </View>
         );
     }
