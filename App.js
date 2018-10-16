@@ -13,6 +13,7 @@ import {
 } from 'react-native'
 import JFlatList from './JFlatList'
 import JSectionList from './JSectionList'
+import JScrollView from './JScrollView'
 
 var _this = null;
 export default class App extends Component {
@@ -33,6 +34,18 @@ export default class App extends Component {
 
     render() {
         return (
+            <JScrollView
+                ref={JScrollView => this.JScrollView = JScrollView}
+                onRefresh={()=>{
+                    setTimeout(function () {
+                        _this.JScrollView.refreshFinish();
+                    },3000)
+                }}
+                childView={
+                    <View style={{width:300,height:300,backgroundColor:'red'}}/>
+                }
+            />
+            /**
             <View style={{flex: 1}}>
                 <JSectionList ref={JSectionList => this.JSectionList = JSectionList}
                               styles={{marginTop:100}}
@@ -83,6 +96,7 @@ export default class App extends Component {
                               }}
                 />
             </View>
+             */
         );
     }
 }
