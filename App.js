@@ -35,6 +35,7 @@ export default class App extends Component {
         return (
             <View style={{flex: 1}}>
                 <JSectionList ref={JSectionList => this.JSectionList = JSectionList}
+                              styles={{marginTop:100}}
                               sections={this.state.data}
                               renderItem={
                                   ({item, index, section}) => {

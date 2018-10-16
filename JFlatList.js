@@ -30,6 +30,7 @@ export default class JFlatList extends Component<Props> {
     }
 
     static propTyps = {
+        styles:PropTypes.object,
         onRefresh: PropTypes.func.isRequired,
         onLoadMore: PropTypes.func.isRequired,
         data: PropTypes.array,
@@ -97,7 +98,7 @@ export default class JFlatList extends Component<Props> {
     render() {
         return (
             <FlatList
-                style={{backgroundColor: 'transparent'}}
+                style={[{backgroundColor: 'transparent'},this.props.styles]}
                 data={this.props.data}
                 renderItem={this.props.renderItem}
                 ListFooterComponent={this._renderFooter}

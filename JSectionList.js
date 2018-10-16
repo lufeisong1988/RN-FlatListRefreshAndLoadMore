@@ -29,6 +29,7 @@ export default class JFlatList extends Component<Props> {
     }
 
     static propTyps = {
+        styles:PropTypes.object,
         sections: PropTypes.array,
         renderItem: PropTypes.node,
         renderSectionHeader: PropTypes.node,
@@ -103,7 +104,7 @@ export default class JFlatList extends Component<Props> {
     render() {
         return (
             <SectionList
-                style={{backgroundColor: 'transparent'}}
+                style={[{backgroundColor: 'transparent'},this.props.styles]}
                 stickySectionHeadersEnabled={this.props.stickySectionHeadersEnabled}
                 keyExtractor={(item, index) => item + index}
                 sections={this.props.sections}
